@@ -145,6 +145,7 @@ System::System(const string &strVocFile, const string &strSettingsFile,
   // Initialize the Loop Closing thread and launch
   mpLoopCloser = new LoopClosing(mpMap, mpKeyFrameDatabase, mpVocabulary,
                                  mSensor != MONOCULAR);
+  cout << "Loop closing" << endl;
   mptLoopClosing = new thread(&ORB_SLAM2::LoopClosing::Run, mpLoopCloser);
 
   // Initialize the Viewer thread

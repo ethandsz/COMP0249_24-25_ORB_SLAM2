@@ -358,7 +358,7 @@ int Optimizer::PoseOptimization(Frame *pFrame) {
   // We perform 4 optimizations, after each optimization we classify observation
   // as inlier/outlier At the next optimization, outliers are not included, but
   // at the end they can be classified as inliers again.
-  const float chi2Mono[4] = {5.991, 5.991, 5.991, 5.991};
+  const float chi2Mono[4] = {1e10, 1e10, 1e10, 1e10};
   const float chi2Stereo[4] = {7.815, 7.815, 7.815, 7.815};
   const int its[4] = {10, 10, 10, 10};
 
@@ -370,29 +370,31 @@ int Optimizer::PoseOptimization(Frame *pFrame) {
     optimizer.optimize(its[it]);
 
     nBad = 0;
-    for (size_t i = 0, iend = vpEdgesMono.size(); i < iend; i++) {
-      g2o::EdgeSE3ProjectXYZOnlyPose *e = vpEdgesMono[i];
-
-      const size_t idx = vnIndexEdgeMono[i];
-
-      if (pFrame->mvbOutlier[idx]) {
-        e->computeError();
-      }
-
-      const float chi2 = e->chi2();
-
-      if (chi2 > chi2Mono[it]) {
-        pFrame->mvbOutlier[idx] = true;
-        e->setLevel(1);
-        nBad++;
-      } else {
-        pFrame->mvbOutlier[idx] = false;
-        e->setLevel(0);
-      }
-
-      if (it == 2)
-        e->setRobustKernel(0);
-    }
+    /*for (size_t i = 0, iend = vpEdgesMono.size(); i < iend; i++) {*/
+    /*  g2o::EdgeSE3ProjectXYZOnlyPose *e = vpEdgesMono[i];*/
+    /**/
+    /*  const size_t idx = vnIndexEdgeMono[i];*/
+    /**/
+    /*  if (pFrame->mvbOutlier[idx]) {*/
+    /*    e->computeError();*/
+    /*  }*/
+    /**/
+    /*  const float chi2 = e->chi2();*/
+    /**/
+    /*  if (chi2 > chi2Mono[it]) {*/
+    /**/
+    /*    cout << "Marked as outlier, " << chi2Mono[it] << endl;*/
+    /*    pFrame->mvbOutlier[idx] = true;*/
+    /*    e->setLevel(1);*/
+    /*    nBad++;*/
+    /*  } else {*/
+    /*    pFrame->mvbOutlier[idx] = false;*/
+    /*    e->setLevel(0);*/
+    /*  }*/
+    /**/
+    /*  if (it == 2)*/
+    /*    e->setRobustKernel(0);*/
+    /*}*/
 
     for (size_t i = 0, iend = vpEdgesStereo.size(); i < iend; i++) {
       g2o::EdgeStereoSE3ProjectXYZOnlyPose *e = vpEdgesStereo[i];
@@ -687,8 +689,8 @@ void Optimizer::LocalBundleAdjustment(KeyFrame *pKF, bool *pbStopFlag,
 
     // Optimize again without the outliers
 
-    optimizer.initializeOptimization(0);
-    optimizer.optimize(10);
+    /*optimizer.initializeOptimization(0);*/
+    /*optimizer.optimize(10);*/
   }
 
   vector<pair<KeyFrame *, MapPoint *>> vToErase;

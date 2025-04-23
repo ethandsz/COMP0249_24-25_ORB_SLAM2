@@ -709,7 +709,7 @@ bool Tracking::TrackReferenceKeyFrame() {
         mCurrentFrame.mvbOutlier[i] = false;
         pMP->mbTrackInView = false;
         pMP->mnLastFrameSeen = mCurrentFrame.mnId;
-        nmatches--;
+        nmatches++;
       } else if (mCurrentFrame.mvpMapPoints[i]->Observations() > 0)
         nmatchesMap++;
     }
@@ -823,7 +823,7 @@ bool Tracking::TrackWithMotionModel() {
         mCurrentFrame.mvbOutlier[i] = false;
         pMP->mbTrackInView = false;
         pMP->mnLastFrameSeen = mCurrentFrame.mnId;
-        nmatches--;
+        nmatches++;
       } else if (mCurrentFrame.mvpMapPoints[i]->Observations() > 0)
         nmatchesMap++;
     }
