@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
       if (ttrack < T)
         this_thread::sleep_for(chrono::duration<double>(T - ttrack));
     }
-    SLAM.StopViewer();
+  //  SLAM.StopViewer();
   });
 
   SLAM.StartViewer();
